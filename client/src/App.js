@@ -110,7 +110,12 @@ function App() {
         </button>
         
         {message && <p style={{ color: "blue", fontWeight: "bold", marginTop: "10px" }}>{message}</p>}
-      </div>
+          </div>
+          {/* --- FOOTER --- */}
+          <footer style={{ marginTop: "50px", textAlign: "center", color: "#888", fontSize: "0.9rem" }}>
+              <hr />
+              <p>Assignment 4 | Created by Arshdeep</p>
+          </footer>
     </div>
   );
 }
