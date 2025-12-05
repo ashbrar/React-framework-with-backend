@@ -8,20 +8,25 @@ app.use(cors()); // Enable CORS
 app.use(express.json());
 app.use(express.static("public")); // Serve images from public folder
 
-// --- MULTER CONFIGURATION (New Code) ---
+// --- MULTER CONFIGURATION ---
+// We use diskStorage to control exactly where files are saved and how they are named.
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "./public"); // Save files to the public folder
+        // Files will be stored in the 'public' directory so they can be served statically
+        cb(null, "./public");
     },
     filename: (req, file, cb) => {
-        // RENAME logic: Use the 'name' query param + original extension
-        // If ?name=tom, file becomes tom.jpg
+        // REQUIREMENT: Rename the uploaded file based on the query parameter '?name='
+        // This allows us to overwrite specific characters (e.g., 'tom.jpg') dynamically.
         const name = req.query.name;
+
+        // Keep the original extension (e.g., .jpg or .png)
         const ext = path.extname(file.originalname) || ".jpg";
+
+        // Final filename format: name + extension
         cb(null, `${name}${ext}`);
     }
 });
-
 const upload = multer({ storage: storage });
 
 // --- ROUTES ---
